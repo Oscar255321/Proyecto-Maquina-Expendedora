@@ -49,7 +49,7 @@ public class HelloController {
     private double precioProductoSeleccionado = 0.0;
     private String productoSeleccionado = "";
     private double cambio= 0;
-
+    @FXML
     // Inicialización de eventos
     public void initialize() {
         // Filtro para resaltar el producto seleccionado
@@ -82,7 +82,7 @@ public class HelloController {
             }
         });
     }
-
+    @FXML
     // Método para manejar la selección de un producto
     private void seleccionarProducto(String nombre, double precio, Button boton) {
         productoSeleccionado = nombre;
@@ -91,7 +91,7 @@ public class HelloController {
         boton.setStyle("-fx-background-color: #2273b7");
     }
 
-
+    @FXML
     // Método para manejar el clic de las monedas
     private void manejarMoneda(ActionEvent event) {
         Button boton = (Button) event.getSource();
@@ -121,7 +121,7 @@ public class HelloController {
         totalImporte += valorMoneda;
         pantallaMonedero.setText("Monedero: " + String.format("%.2f", totalImporte) + "€");
     }
-
+    @FXML
     // Método para resetear la operación
     private void resetearOperacion() {
         productoSeleccionado = "";
@@ -130,30 +130,39 @@ public class HelloController {
         pantallaProducto.setText("Producto");
         pantallaMonedero.setText("Monedero");
     }
-
+    @FXML
     // Método para realizar la compra
     private void realizarCompra() {
         if (productoSeleccionado.isEmpty()) {
-            pantallaMonedero.setText("Error: Selecciona un producto");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Producto no seleccionado.");
+            // Mostrar la alerta
+            alert.showAndWait();
             return;
         }
 
         if (totalImporte < precioProductoSeleccionado) {
-            pantallaMonedero.setText("Error: Saldo insuficiente");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Ha ocurrido un error");
+            alert.setContentText("Saldo insuficiente.");
+            // Mostrar la alerta
+            alert.showAndWait();
+            resetearOperacion();
         }
 
         if (totalImporte >= precioProductoSeleccionado){
             cambio = totalImporte - precioProductoSeleccionado;
-            //pantallaMonedero.setText("Has comprado " + productoSeleccionado + ". \nCambio: " + String.format("%.2f", cambio) + "€");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Información");
+            alert.setHeaderText("Gracias por su compra");
+            alert.setContentText("Su cambio es: " + String.format("%.2f", cambio) + "€.");
+            // Mostrar la alerta
+            alert.showAndWait();
             resetearOperacion();
         }
     }
-    // Método para mostrar alertas con JavaFX
-    private void mostrarCompra(Alert.AlertType tipo, String titulo, String contenido) {
-        Alert pantallaSecundaria = new Alert(tipo);
-        pantallaSecundaria.setTitle(titulo);
-        pantallaSecundaria.setHeaderText(null);  // No mostramos un encabezado
-        pantallaSecundaria.setContentText(contenido);
-        pantallaSecundaria.showAndWait();  // Esperamos a que el usuario cierre la alerta
-    }
+
 }
