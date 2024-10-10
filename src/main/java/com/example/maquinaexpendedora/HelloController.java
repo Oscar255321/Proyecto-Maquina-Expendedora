@@ -151,18 +151,17 @@ public class HelloController {
             // Mostrar la alerta
             alert.showAndWait();
             resetearOperacion();
-        }
-
-        if (totalImporte >= precioProductoSeleccionado){
-            cambio = totalImporte - precioProductoSeleccionado;
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información");
-            alert.setHeaderText("Gracias por su compra");
-            alert.setContentText("Su cambio es: " + String.format("%.2f", cambio) + "€.");
-            // Mostrar la alerta
-            alert.showAndWait();
-            resetearOperacion();
+        } else {
+            if (totalImporte >= precioProductoSeleccionado) {
+                cambio = totalImporte - precioProductoSeleccionado;
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información");
+                alert.setHeaderText("Gracias por su compra");
+                alert.setContentText("Su cambio es: " + String.format("%.2f", cambio) + "€.");
+                // Mostrar la alerta
+                alert.showAndWait();
+                resetearOperacion();
+            }
         }
     }
-
 }
